@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Menus from "./pages/Menus";
@@ -11,20 +11,18 @@ export const API_URL: string = 'http://localhost:3000/backend';
 
 function App() {
 
-  return (
-   
-    <BrowserRouter>
-      <Routes >
-        <Route path='/admin' element={<Home />} />
-        <Route path='/admin/dashboard' element={<Dashboard />} />
-        <Route path='/admin/menus' element={<Menus />} />
-        <Route path='/admin/operations' element={<Operations />} />
-        <Route path='/admin/orders' element={<Orders />} />
-        <Route path='/admin/signup' element={<Signup />} />
-        <Route path='/admin/login' element={<Login />} />
-      
-      </Routes>
-    </BrowserRouter>
+  return (   
+    
+  <Routes >
+    <Route path='/admin' element={<Home />} />
+    <Route path='/admin/dashboard' element={<Dashboard />} />
+    <Route path='/admin/menus' element={<Menus />} />
+    <Route path='/admin/operations' element={<Operations />} />
+    <Route path='/admin/orders' element={<Orders />} />
+    <Route path='/admin/signup' element={<Signup />} />
+    <Route path='/admin/login' element={<Login />} />
+  
+  </Routes>
 
   )
 }
