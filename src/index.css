@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #808080; /* 474747 bold color if you want to use */
+  font-family: 'Raleway', sans-serif;
+    -webkit-font-smoothing: subpixel-antialiased;
+
+}
+
+/* a {
+  color: #a3e635;
+}
+
+a:hover {
+  text-decoration: underline;
+} */
