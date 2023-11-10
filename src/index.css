@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,8 +10,7 @@ body {
   padding: 0;
   height: 100%;
   background: #808080; /* 474747 bold color if you want to use */
-  font-family: 'Raleway', sans-serif;
-    -webkit-font-smoothing: subpixel-antialiased;
+  font-family: 'Quicksand', sans-serif;
 
 }
 
