@@ -2,12 +2,11 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../pages/ui/button";
 import clsx from "clsx";
+import { useUser } from "../customHooks/useUser";
+import { useLocalStorage } from "../customHooks/useLocalStorage";
+import { API_URL, NavItemType } from "../lib/definitions";
 
-type NavItemType = {
-  id: string,
-  label: string,
-  path: string
-}
+
 
 const NavItemsList: NavItemType[] = [
   {
@@ -66,31 +65,66 @@ const NavItems = ({ showNavBar }: { showNavBar: boolean}) => {
 
 const Header = () => {
   const [showNavbar, setShowNavBar] = useState<boolean>(false);
+  const { setItem, getItem } = useLocalStorage();
   const navigate = useNavigate();
 
+  const { user, removeUser } = useUser();
+
+  const logout = async (): Promise<void> => {
+    await fetch(API_URL + '/logout', {
+      method: 'POST',
+      body: JSON.stringify({ refreshToken: getItem('RefreshToken') })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if( data === 1) {
+          removeUser();
+          setItem('AccessToken', '');
+          setItem('RefreshToken', '');
+          navigate('/admin');
+        }        
+      })
+      .catch ((err) => {
+        console.error('Error', err);
+      });
+    
+  }
+
+  console.log( user );
   return (
     
   <nav className="bg-[#474747] fixed w-full z-10 top-0 left-0">
     <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-      <a href="" className="flex items-center">
+      <Link to="/admin" className="flex items-center">
         <span className="self-center text-xl font-semibold whitespace-nowrap text-white">Pronto Admin</span>
-      </a>
+      </Link>
     
       <div className="flex md:order-2 gap-3">
-        <button 
-          type="button" 
-          className="text-lime-500 font-bold text-sm px-4 py-2 text-center mr-3 md:mr-0 uppercase"
-          onClick={() => navigate('/admin/signup')}
-        >
-          Signup
-        </button>
+        { user!.userId === 0 ? (
+          <button 
+            type="button" 
+            className="text-lime-500 font-bold text-sm px-4 py-2 text-center mr-3 md:mr-0 uppercase"
+            onClick={() => navigate('/admin/signup')}
+           >
+            Signup
+          </button>
+        ): null}        
 
-        <Button 
+        { user!.userId > 0 && user!.isAdmin ? (
+          <Button 
+            type="button"
+            onClick={() => logout()}
+          >
+            LOGOUT
+          </Button>
+        ) : ( 
+          <Button 
             type="button"            
             onClick={() => navigate('/admin/login')} 
-        >
-          LOGIN
-        </Button>
+          >
+            LOGIN
+          </Button> 
+        )}
         
         <button 
           data-collapse-toggle="navbar-cta" 

@@ -1,24 +1,26 @@
 import { ReactNode, createContext, useState } from "react";
-import { AuthContextData, User } from "../type";
+import { AuthContextData, User } from "../lib/definitions";
 
 type AuthProps = {
   children?: ReactNode
-}
+};
 
 const AuthContext = createContext<AuthContextData>({
   user: {
-    authenticated: false,
     userId: 0,
-    isAdmin: false
+    isAdmin: false,
+    AccessToken: '',
+    RefreshToken: ''
   },
   setUser: () => {}
-})
+});
 
 const AuthProvider = ({ children }: AuthProps) => {
   const [user, setUser] = useState<User>({
-    authenticated: false,
     userId: 0,
-    isAdmin: false
+    isAdmin: false,
+    AccessToken: '',
+    RefreshToken: ''
   });  
 
   return (

@@ -6,17 +6,18 @@ import Operations from "./pages/Operations";
 import Orders from "./pages/Orders";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-
-export const API_URL: string = 'http://localhost:3000/backend';
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
   return (   
     
   <Routes >
+    <Route element={<ProtectedRoute />} >
+      <Route path='/admin/menus' element={<Menus />} />
+    </Route>
     <Route path='/admin' element={<Home />} />
-    <Route path='/admin/dashboard' element={<Dashboard />} />
-    <Route path='/admin/menus' element={<Menus />} />
+    <Route path='/admin/dashboard' element={<Dashboard />} />    
     <Route path='/admin/operations' element={<Operations />} />
     <Route path='/admin/orders' element={<Orders />} />
     <Route path='/admin/signup' element={<Signup />} />

@@ -2,8 +2,8 @@ import { FormEvent, useRef, useState } from "react";
 import InputFormComp from "../components/InputFormComp";
 import Layout from "./Layout";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../App";
 import { Button } from "./ui/button";
+import { API_URL } from "../lib/definitions";
 
 const Signup = () => {
 
