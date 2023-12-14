@@ -1,8 +1,8 @@
 import { FaCircleCheck, FaCircleXmark, FaCirclePlus, FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { CategoryData } from "../../lib/definitions";
 import MenuCard from "./MenuCard";
-import { useModal } from "../../customHooks/useModal";
 import { useRef, useState } from "react";
+import { useModal } from "../../customHooks/useModal";
 
 type CategoryCardProps = {
   key: number;

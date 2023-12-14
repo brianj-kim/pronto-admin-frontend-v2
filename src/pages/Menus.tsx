@@ -6,7 +6,6 @@ import { useAuth } from "../customHooks/useAuth";
 import CategoryCard from "./components/CategoryCard";
 import { useModal } from "../customHooks/useModal";
 
-
 function Menus() {
   const { user } = useAuth();
   const [categories, setCategories] = useState<CategoryData[] | null>(null);
@@ -41,7 +40,7 @@ function Menus() {
     });
   };
 
-  console.log(user);
+  // console.log(user);
   
   if (isLoading) return <div className="w-full h-screen text-white flex items-center justify-center text-3xl">Loading Menus...</div>;
 

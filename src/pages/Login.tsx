@@ -47,6 +47,8 @@ const Login = () => {
     .then(res => res.json())    
     .then(data => {      
       // console.log(data);
+      // return;
+
       setUser(tokenToUser(data.access_token));
       setItem('isAuthenticated', 'true');
       setItem('refreshExp', data.refresh_exp);

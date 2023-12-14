@@ -7,12 +7,12 @@ import Orders from "./pages/Orders";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { ModalContextProvider } from "./customHooks/useModal";
+import { ModalProvider } from "./context/ModalProvider";
 
 function App() {
 
   return (   
-  <ModalContextProvider>
+  <ModalProvider>
     <Routes >
       <Route element={<ProtectedRoute />} >
         <Route path='/admin/menus' element={<Menus />} />
@@ -25,7 +25,7 @@ function App() {
       <Route path='/admin/login' element={<Login />} />
     
     </Routes>
-  </ModalContextProvider>  
+  </ModalProvider>  
   )
 }
 

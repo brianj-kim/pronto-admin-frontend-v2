@@ -1,15 +1,15 @@
-import React, { createContext, useCallback, useContext, useState } from "react";
+// ModalContextProvider.jsx
+import React, { createContext, useCallback, useState } from "react";
 import { OpenModal } from "../lib/definitions";
 import EditCategoryModal, { EditCategoryModalProps } from "../components/modals/EditCategoryModal";
 import CreateCategoryModal, { CreateCategoryModalProps } from "../components/modals/CreateCategoryModal";
 
 interface IModalContext {
-  openCreateCategoryModal: OpenModal<CreateCategoryModalProps>,
-  openEditCategoryModal: OpenModal<EditCategoryModalProps>
-
+  openCreateCategoryModal: OpenModal<CreateCategoryModalProps>;
+  openEditCategoryModal: OpenModal<EditCategoryModalProps>;
 }
 
-const ModalContext = createContext<IModalContext>({} as IModalContext);
+export const ModalContext = createContext<IModalContext>({} as IModalContext);
 
 const useDefaultModalLogic = <T,>() => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -33,12 +33,12 @@ const useDefaultModalLogic = <T,>() => {
   };
 };
 
-export const useModal = () => useContext(ModalContext);
+// export const useModal = () => useContext(ModalContext);
 
-export const ModalContextProvider = ({
+export const ModalProvider = ({
   children,
 }: {
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }) => {
   const {
     openModal: openCreateCategoryModal,
@@ -46,7 +46,7 @@ export const ModalContextProvider = ({
     visible: createCategoryModalVisible,
     props: createCategoryModalProps,
   } = useDefaultModalLogic<CreateCategoryModalProps>();
-  
+
   const {
     openModal: openEditCategoryModal,
     closeModal: closeEditCategoryModal,
@@ -61,15 +61,15 @@ export const ModalContextProvider = ({
 
   return (
     <ModalContext.Provider value={modalContextValue}>
-      { createCategoryModalProps && (
+      {createCategoryModalProps && (
         <CreateCategoryModal
           {...createCategoryModalProps}
           onClose={closeCreateCategoryModal}
           visible={createCategoryModalVisible}
         />
       )}
-      
-      { editCategoryModalProps && (
+
+      {editCategoryModalProps && (
         <EditCategoryModal
           {...editCategoryModalProps}
           onClose={closeEditCategoryModal}
@@ -79,5 +79,5 @@ export const ModalContextProvider = ({
 
       {children}
     </ModalContext.Provider>
-  )
-}
+  );
+};

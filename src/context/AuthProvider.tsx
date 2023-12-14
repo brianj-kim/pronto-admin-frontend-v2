@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const refreshFetch = async () => {
-      if (isAuthenticated && isExpired(refreshExp)) {
+      if (isAuthenticated && !isExpired(refreshExp)) {
         
         const response = await fetch(API_URL + '/refresh/', {
           method: 'GET',
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     refreshFetch();
-  },[isAuthenticated, refreshExp, removeUser]);
+  },[]);
 
   const contextValue: AuthContextProps = {
     user, 
