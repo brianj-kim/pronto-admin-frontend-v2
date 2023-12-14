@@ -7,24 +7,25 @@ import Orders from "./pages/Orders";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { ModalContextProvider } from "./customHooks/useModal";
 
 function App() {
 
   return (   
+  <ModalContextProvider>
+    <Routes >
+      <Route element={<ProtectedRoute />} >
+        <Route path='/admin/menus' element={<Menus />} />
+      </Route>
+      <Route path='/admin' element={<Home />} />
+      <Route path='/admin/dashboard' element={<Dashboard />} />    
+      <Route path='/admin/operations' element={<Operations />} />
+      <Route path='/admin/orders' element={<Orders />} />
+      <Route path='/admin/signup' element={<Signup />} />
+      <Route path='/admin/login' element={<Login />} />
     
-  <Routes >
-    <Route element={<ProtectedRoute />} >
-      <Route path='/admin/menus' element={<Menus />} />
-    </Route>
-    <Route path='/admin' element={<Home />} />
-    <Route path='/admin/dashboard' element={<Dashboard />} />    
-    <Route path='/admin/operations' element={<Operations />} />
-    <Route path='/admin/orders' element={<Orders />} />
-    <Route path='/admin/signup' element={<Signup />} />
-    <Route path='/admin/login' element={<Login />} />
-  
-  </Routes>
-
+    </Routes>
+  </ModalContextProvider>  
   )
 }
 

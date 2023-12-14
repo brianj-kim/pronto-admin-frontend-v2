@@ -6,6 +6,7 @@ type InputFormCompProps = {
   type?: string,
   value?: string,
   style?: string,
+  autoComplete?: boolean,
   required?: boolean,
   message?: string
 }
