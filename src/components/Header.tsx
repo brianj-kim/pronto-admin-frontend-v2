@@ -71,27 +71,7 @@ const Header = () => {
       removeUser();
     }
     // console.log(user);
-  },[]);
-
-  // const logout = async (): Promise<void> => {
-  //   await fetch(API_URL + '/logout', {
-  //     method: 'POST',
-  //     credentials: 'include'
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       console.log(data);
-  //       if( data === 1) {
-  //         removeUser();
-  //         navigate('/admin');
-  //       }        
-  //     })
-  //     .catch ((err) => {
-  //       console.error('Error', err);
-  //     });
-
-    
-  // }
+  },[user, removeUser]);
 
   return (
     
