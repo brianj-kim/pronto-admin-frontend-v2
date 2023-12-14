@@ -6,6 +6,6 @@ export default function ProtectedRoute () {
   const { user } = useAuth();
 
   return (
-    (user!.isAdmin) ? <Outlet /> : <Navigate to='/admin/login' state={{from: location}} replace />
+    (user && user.isAdmin) ? <Outlet /> : <Navigate to='/admin/login' state={{from: location}} replace />
   );
 }

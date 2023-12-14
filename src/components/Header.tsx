@@ -1,12 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../pages/ui/button";
 import clsx from "clsx";
-import { useUser } from "../customHooks/useUser";
-import { useLocalStorage } from "../customHooks/useLocalStorage";
-import { API_URL, NavItemType } from "../lib/definitions";
-
-
+import { NavItemType } from "../lib/definitions";
+import { useAuth } from "../customHooks/useAuth";
 
 const NavItemsList: NavItemType[] = [
   {
@@ -36,7 +33,7 @@ const NavItemsList: NavItemType[] = [
 
 const NavItems = ({ showNavBar }: { showNavBar: boolean}) => {
   const { pathname } = useLocation();
-
+  
   return (
     <div 
       className={`items-center justify-between w-full md:flex md:w-auto ${ showNavBar ? "" : "hidden" }`} 
@@ -65,32 +62,37 @@ const NavItems = ({ showNavBar }: { showNavBar: boolean}) => {
 
 const Header = () => {
   const [showNavbar, setShowNavBar] = useState<boolean>(false);
-  const { setItem, getItem } = useLocalStorage();
   const navigate = useNavigate();
 
-  const { user, removeUser } = useUser();
+  const { user, removeUser } = useAuth();
 
-  const logout = async (): Promise<void> => {
-    await fetch(API_URL + '/logout', {
-      method: 'POST',
-      body: JSON.stringify({ refreshToken: getItem('RefreshToken') })
-    })
-      .then(res => res.json())
-      .then(data => {
-        if( data === 1) {
-          removeUser();
-          setItem('AccessToken', '');
-          setItem('RefreshToken', '');
-          navigate('/admin');
-        }        
-      })
-      .catch ((err) => {
-        console.error('Error', err);
-      });
+  useEffect(() => {
+    if(user && !(user.isAdmin) ) {
+      removeUser();
+    }
+    // console.log(user);
+  },[]);
+
+  // const logout = async (): Promise<void> => {
+  //   await fetch(API_URL + '/logout', {
+  //     method: 'POST',
+  //     credentials: 'include'
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       console.log(data);
+  //       if( data === 1) {
+  //         removeUser();
+  //         navigate('/admin');
+  //       }        
+  //     })
+  //     .catch ((err) => {
+  //       console.error('Error', err);
+  //     });
+
     
-  }
+  // }
 
-  console.log( user );
   return (
     
   <nav className="bg-[#474747] fixed w-full z-10 top-0 left-0">
@@ -100,7 +102,7 @@ const Header = () => {
       </Link>
     
       <div className="flex md:order-2 gap-3">
-        { user!.userId === 0 ? (
+        { user ? (
           <button 
             type="button" 
             className="text-lime-500 font-bold text-sm px-4 py-2 text-center mr-3 md:mr-0 uppercase"
@@ -110,10 +112,10 @@ const Header = () => {
           </button>
         ): null}        
 
-        { user!.userId > 0 && user!.isAdmin ? (
+        { user && user.isAdmin ? (
           <Button 
             type="button"
-            onClick={() => logout()}
+            onClick={() => removeUser()}
           >
             LOGOUT
           </Button>

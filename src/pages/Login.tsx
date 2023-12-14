@@ -1,45 +1,71 @@
-import { FormEvent, useRef } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import InputFormComp from "../components/InputFormComp";
 import Layout from "./Layout";
 import { Button } from "./ui/button";
-import { useLocalStorage } from "../customHooks/useLocalStorage";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { useLocation, useNavigate } from "react-router-dom";
 import { API_URL } from "../lib/definitions";
+import { tokenToUser } from "../lib/actions";
 import { useAuth } from "../customHooks/useAuth";
+import { useLocalStorage } from "../customHooks/useLocalStorage";
 
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { user, setUser } = useAuth();
+  const { setItem } = useLocalStorage();
+
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const { setItem } = useLocalStorage();
-  const { auth } = useAuth();
-  
+  const errRef = useRef<HTMLParagraphElement>(null)
+
+  const [errMsg, setErrMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    emailRef!.current!.focus();
+    setErrMsg('');
+  },[]);
+
+  useEffect(() => {
+    if(user) {
+      (location.state === null) ? navigate('/admin', {replace: true}) : navigate(location.state!.from, {replace: true});
+    }
+  });
+
   const handleOnSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
 
     const email: string = emailRef.current!.value;
     const password: string = passwordRef.current!.value;
 
-    await fetch(API_URL + '/login', {
+    await fetch(API_URL + '/login/', {
       method: 'POST',
-      body: JSON.stringify({ email, password })
+      credentials: 'include',
+      body: JSON.stringify({ email, password }),      
     })
     .then(res => res.json())    
-    .then(data => {
-      
-      setItem('AccessToken', data.access_token);
-      setItem('RefreshToken', data.refresh_token);
-      
-      auth();
-      // emailRef.current!.value = "";
-      // passwordRef.current!.value = "";
+    .then(data => {      
+      // console.log(data);
+      setUser(tokenToUser(data.access_token));
+      setItem('isAuthenticated', 'true');
+      setItem('refreshExp', data.refresh_exp);
 
       (location.state === null) ? navigate('/admin', {replace: true}) : navigate(location.state!.from, {replace: true});
     })
     .catch ((err) => {
       console.error("Error", err);
+
+      if(!err?.response) {
+        setErrMsg('No Server Response');
+      } else if (err.response?.status === 400) {
+        setErrMsg('Missing email and password');
+      } else if (err.response?.status === 401) {
+        setErrMsg('Unauthorized');
+      } else {
+        setErrMsg('Login failed')
+      }
+      errRef.current!.focus();
 
       return;
     });
@@ -54,6 +80,7 @@ const Login = () => {
               <h6 className="text-white text-md font-bold">
                 Login
               </h6>
+              <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
           
             </div>
           </div>
@@ -65,6 +92,7 @@ const Login = () => {
                   <InputFormComp 
                     label="email"
                     type="email"
+                    autoComplete={false}
                     style="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     ref={emailRef}
                     placeholder="email"
