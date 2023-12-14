@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import { createContext, ReactNode, useCallback, useEffect, useState } from 'react';
 import { API_URL, AuthContextProps, User } from "../lib/definitions";
 import { useLocalStorage } from '../customHooks/useLocalStorage';
 import { isExpired, tokenToUser } from '../lib/actions';
@@ -9,11 +9,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { getItem, removeItem } = useLocalStorage();
   const [user, setUser] = useState<User | null>(null);
 
-  const removeUser = () => {
+  const removeUser = useCallback(() => {
     setUser(null);
     removeItem('isAuthenticated');
     removeItem('refreshExp');
-  }
+  },[setUser, removeItem]);
 
   const isAuthenticated = getItem('isAuthenticated') === 'true' ? true : false;
   const refreshExp = Number(getItem('refreshExp'));
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     refreshFetch();
-  },[]);
+  },[isAuthenticated, refreshExp, removeUser]);
 
   const contextValue: AuthContextProps = {
     user, 
