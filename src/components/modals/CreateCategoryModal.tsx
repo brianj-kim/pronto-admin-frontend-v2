@@ -13,11 +13,23 @@ export default function CreateCategoryModal ({
   categories,
   setCategories,
 }: CreateCategoryModalProps) {
+  const { user } = useAuth();
+
   const titleRef = useRef<HTMLInputElement>(null);
   const detailsRef = useRef<HTMLInputElement>(null);
-  const imageRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLInputElement>(null);  
 
-  const { user } = useAuth();
+  useEffect(() => {
+    if(visible) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = '15px';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
+    }
+  },[visible]);
 
   const handleFormSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
@@ -110,7 +122,7 @@ export default function CreateCategoryModal ({
               </button>
             </div>
             <div className="w-full h-full px-6 py-3 bg-[#808080] rounded-b-lg">
-              <form onSubmit={handleFormSubmit}>
+              <form id="CreateForm" onSubmit={handleFormSubmit}>
                 <div className="my-3 align-left">
                   <label
                     htmlFor="title"

@@ -4,11 +4,14 @@ import { OpenModal } from "../lib/definitions";
 import EditCategoryModal, { EditCategoryModalProps } from "../components/modals/EditCategoryModal";
 import CreateCategoryModal, { CreateCategoryModalProps } from "../components/modals/CreateCategoryModal";
 import DeleteCategoryModal, { DeleteCategoryModalProps } from "../components/modals/DeleteCategoryModal";
+import CreateMenuModal, { CreateMenuModalProps } from "../components/modals/CreateMenuModal";
 
 interface IModalContext {
   openCreateCategoryModal: OpenModal<CreateCategoryModalProps>;
   openEditCategoryModal: OpenModal<EditCategoryModalProps>;
   openDeleteCategoryModal: OpenModal<DeleteCategoryModalProps>;
+  
+  openCreateMenuModal: OpenModal<CreateMenuModalProps>;
 }
 
 export const ModalContext = createContext<IModalContext>({} as IModalContext);
@@ -63,10 +66,19 @@ export const ModalProvider = ({
     props: deleteCategoryModalProps
   } = useDefaultModalLogic<DeleteCategoryModalProps>();
 
+  const {
+    openModal: openCreateMenuModal,
+    closeModal: closeCreateMenuModal,
+    visible: createMenuModalVisible,
+    props: createMenuModalProps,
+  } = useDefaultModalLogic<CreateMenuModalProps>();
+
   const modalContextValue: IModalContext = {
     openCreateCategoryModal,
     openEditCategoryModal,
-    openDeleteCategoryModal
+    openDeleteCategoryModal,
+
+    openCreateMenuModal,
   };
 
   return (
@@ -92,6 +104,14 @@ export const ModalProvider = ({
           {...deleteCategoryModalProps}
           onClose={closeDeleteCategoryModal}
           visible={deleteCategoryModalVisible}
+        />
+      )}
+
+      { createMenuModalProps && (
+        <CreateMenuModal
+          {...createMenuModalProps}
+          onClose={closeCreateMenuModal}
+          visible={createMenuModalVisible}
         />
       )}
 
