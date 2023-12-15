@@ -24,6 +24,18 @@ export default function EditCategoryModal ({
   const [imagePath, setImagePath] = useState<string>('' as string);
 
   useEffect(() => {
+    if(visible) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = '15px';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
+    }
+  },[visible]);
+
+  useEffect(() => {
     titleRef.current!.value = category.title;
     detailsRef.current!.value = category.details;
     (category.image !== '') ? setImagePath(category.image) : null;
@@ -172,7 +184,7 @@ export default function EditCategoryModal ({
             </button>
           </div>
           <div className="w-full h-full px-6 py-3 bg-[#808080] rounded-b-lg">
-            <form onSubmit={handleFormSubmit}>
+            <form id="editForm" onSubmit={handleFormSubmit}>
               <div className="my-3 align-left">
                 <label
                   htmlFor="title"

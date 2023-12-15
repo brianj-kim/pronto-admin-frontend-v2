@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useAuth } from "../../customHooks/useAuth";
 import { API_URL, HOME_URL } from "../../lib/definitions";
 import { IModal, CategoryData } from "../../lib/definitions";
@@ -17,10 +18,21 @@ export default function DeleteCategoryModal ({
 }: DeleteCategoryModalProps) {
   const { user } = useAuth();
 
+  useEffect(() => {
+    if(visible) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = '15px';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
+    }
+  },[visible]);
+
   let menusString: string = '';
   category!.menus && category!.menus.map(m => menusString += m.title + ', ');
   menusString = menusString.substring(0, menusString.length-2);
-
   //console.log(menusString);
 
   const handleDeleteCategory = async (e: React.MouseEvent) => {
@@ -38,7 +50,7 @@ export default function DeleteCategoryModal ({
     .then(data => {
       // console.log(data);
       // return;
-      if(data.rowCount.deletedCategory > 0) {
+      if(data.rowCount.deletedCategory === 1) {
         const newCategories = categories!.filter(c => c.cid !== category.cid);
         setCategories?.(newCategories);
       }

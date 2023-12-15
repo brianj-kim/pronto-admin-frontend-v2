@@ -18,7 +18,9 @@ export default function CategoryCard ({ category, categories, setCategories }: C
 
   const { 
     openEditCategoryModal,
-    openDeleteCategoryModal
+    openDeleteCategoryModal,
+
+    openCreateMenuModal
   } = useModal();
   
   const handleOpenEditCategoryModal = () => {
@@ -36,6 +38,15 @@ export default function CategoryCard ({ category, categories, setCategories }: C
       setCategories,
     });
   };
+
+
+  const handleOpenCreateMenuModal = () => {
+    openCreateMenuModal({
+      category,
+      categories,
+      setCategories
+    })
+  }
 
   // console.log(showCard);
   return (
@@ -66,6 +77,7 @@ export default function CategoryCard ({ category, categories, setCategories }: C
 
           <button 
             className="rounded-md ml-6 border uppercase border-lime-500 font-medium text-xs px-2 py-1 text-center flex flex-row justify-around items-center"
+            onClick={handleOpenCreateMenuModal}
           >
             Add Menu<FaCirclePlus className="ml-2 text-lime-400" />
           </button>

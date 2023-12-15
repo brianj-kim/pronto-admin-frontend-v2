@@ -10,7 +10,7 @@ export default function MenuCard ({ menu }: { menu: MenuData}) {
     >
       
       <div className="w-full flex items-start justify-center">
-        <div className="w-[100px] h-[100px] p-2 bg-gray-400 border border-1 rounded-full border-gray-500 shadow-md flex items-center justify-center text-sm">
+        <div className="w-[100px] h-[100px] p-2 bg-gray-400 border border-1 rounded-full border-gray-500 shadow-md flex items-center justify-center text-sm text-gray-600">
           image <br/>
           not ready
         </div>
