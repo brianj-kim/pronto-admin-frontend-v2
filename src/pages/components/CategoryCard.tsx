@@ -94,7 +94,7 @@ export default function CategoryCard ({ category, categories, setCategories }: C
       <div className={`w-full transition-transform duration-150 ease-in-out ${showCard ? null : 'hidden'} `} ref={menusDispRef}>
         <div className={`py-3 px-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4`}>
           {category.menus && category.menus.map((menu) => (
-            <MenuCard key={menu.mid} menu={menu} />
+            <MenuCard menu={menu} key={menu.mid} />
           ))}
         </div>
       

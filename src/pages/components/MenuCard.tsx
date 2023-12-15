@@ -1,26 +1,39 @@
-import { MenuData } from "../../lib/definitions";
+import { useEffect, useState } from "react";
+import { HOME_URL, MenuData } from "../../lib/definitions";
 import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 
 
 export default function MenuCard ({ menu }: { menu: MenuData}) {
+  const [imagePath, setImagePath] = useState<string>('');
   
+  useEffect(() => {
+    menu.image !== '' ? setImagePath(menu.image) : null;
+  },[setImagePath, imagePath, menu.image]);
+
   return (
     <div 
       className="flex flex-col justify-between border border-gray-500 rounded-md shadow-md py-4"
     >
       
       <div className="w-full flex items-start justify-center">
-        <div className="w-[100px] h-[100px] p-2 bg-gray-400 border border-1 rounded-full border-gray-500 shadow-md flex items-center justify-center text-sm text-gray-600">
+        {imagePath !== '' ? (
+          <div 
+            className="w-[120px] h-[120px] p-2 bg-gray-400 border border-1 rounded-full border-gray-500 shadow-md flex items-center justify-center text-sm text-gray-600 bg-cover bg-center"
+            style={{ backgroundImage: 'url(' + HOME_URL + imagePath + ')'}}
+          ></div>
+        ): (
+          <div className="w-[120px] h-[120px] p-2 bg-gray-400 border border-1 rounded-full border-gray-500 shadow-md flex items-center justify-center text-sm text-gray-600">
           image <br/>
           not ready
         </div>
+        )}
 
       </div>
       <div className="w-full flex flex-col justify-start mt-3"> 
         <div className="font-medium text-lg">{menu.title}</div>
-        <div className="flex items-center justify-around">
-          {menu.isSpicy ? (<span className="p-1 spicy text-red-600 text-sm">spicy</span>) : null}
-          {menu.isVeggie ? (<span className="p-1 uppercase text-lime-400 text-sm">vegan</span>) : null}
+        <div className="flex items-center justify-center">
+          {menu.isSpicy ? (<div className="my-2 px-2 uppercase font-semibold border border-red-600 rounded-md text-red-600 text-sm">spicy</div>) : null}
+          {menu.isVeggie ? (<div className="my-2 px-2 ml-3 uppercase font-semibold border border-lime-400 rounded-md text-lime-400 text-sm">vegan</div>) : null}
         </div>
 
         {menu.details && (<div className="text-base">{menu.details}</div>)}        

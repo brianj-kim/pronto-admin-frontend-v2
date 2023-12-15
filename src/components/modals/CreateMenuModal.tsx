@@ -63,28 +63,30 @@ export default function CreateMenuModal ({
     })
       .then(res => res.json())
       .then(data => {
-        // console.log(data);
+        // console.log(data.result);        
         // console.log(category);
+        // return;
 
         const newMenu: MenuData = {
-          mid: data.mid,
-          order: data.order,
-          title: data.title,
-          details: data.details,
-          image: data.imageFile,
-          price: data.price,
-          isSpicy: data.isSpicy,
-          isVeggie: data.isVeggie
+          mid: data.result.mid,
+          order: data.result.order,
+          title: data.result.title,
+          details: data.result.details,
+          image: data.result.image,
+          price: data.result.price,
+          isSpicy: data.result.isSpicy,
+          isVeggie: data.result.isVeggie
         }
 
-        const newMenus: MenuData[] = [ ...category!.menus!, newMenu]; 
-        const newCategory: CategoryData = { ...category!, menus: newMenus! };
+        const newMenus: MenuData[] = [...category.menus!, newMenu]; 
 
-        const newCategories: CategoryData[] = categories!.map(c => {
+        const newCategory: CategoryData = { ...category, menus: newMenus };
+
+        const newCategories: CategoryData[] = categories.map(c => {
                                                 if(c.cid === category.cid) {
                                                   return newCategory;
                                                 }                                                
-                                                return category;
+                                                return c;
 
                                               });
 
