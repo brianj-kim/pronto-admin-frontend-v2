@@ -3,10 +3,12 @@ import React, { createContext, useCallback, useState } from "react";
 import { OpenModal } from "../lib/definitions";
 import EditCategoryModal, { EditCategoryModalProps } from "../components/modals/EditCategoryModal";
 import CreateCategoryModal, { CreateCategoryModalProps } from "../components/modals/CreateCategoryModal";
+import DeleteCategoryModal, { DeleteCategoryModalProps } from "../components/modals/DeleteCategoryModal";
 
 interface IModalContext {
   openCreateCategoryModal: OpenModal<CreateCategoryModalProps>;
   openEditCategoryModal: OpenModal<EditCategoryModalProps>;
+  openDeleteCategoryModal: OpenModal<DeleteCategoryModalProps>;
 }
 
 export const ModalContext = createContext<IModalContext>({} as IModalContext);
@@ -54,9 +56,17 @@ export const ModalProvider = ({
     props: editCategoryModalProps,
   } = useDefaultModalLogic<EditCategoryModalProps>();
 
+  const {
+    openModal: openDeleteCategoryModal,
+    closeModal: closeDeleteCategoryModal,
+    visible: deleteCategoryModalVisible,
+    props: deleteCategoryModalProps
+  } = useDefaultModalLogic<DeleteCategoryModalProps>();
+
   const modalContextValue: IModalContext = {
     openCreateCategoryModal,
     openEditCategoryModal,
+    openDeleteCategoryModal
   };
 
   return (
@@ -74,6 +84,14 @@ export const ModalProvider = ({
           {...editCategoryModalProps}
           onClose={closeEditCategoryModal}
           visible={editCategoryModalVisible}
+        />
+      )}
+
+      { deleteCategoryModalProps && (
+        <DeleteCategoryModal
+          {...deleteCategoryModalProps}
+          onClose={closeDeleteCategoryModal}
+          visible={deleteCategoryModalVisible}
         />
       )}
 

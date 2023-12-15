@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { API_URL, CategoryData, IModal, MenuData } from "../../lib/definitions";
+import { API_URL, CategoryData, IModal, MenuData, HOME_URL } from '../../lib/definitions';
 import { useAuth } from "../../customHooks/useAuth";
 
 export interface EditCategoryModalProps extends IModal {
@@ -15,28 +15,32 @@ export default function EditCategoryModal ({
   categories,
   setCategories
 }: EditCategoryModalProps) {
-  const [hasImage, setHasImage] = useState<boolean>(false);
-
   const { user } = useAuth();
 
   const titleRef = useRef<HTMLInputElement>(null);
   const detailsRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
+  
+  const [imagePath, setImagePath] = useState<string>('' as string);
 
   useEffect(() => {
     titleRef.current!.value = category.title;
     detailsRef.current!.value = category.details;
-    imageRef.current!.value = category.image;
-  });
+    (category.image !== '') ? setImagePath(category.image) : null;
+  },[]);  
+
+  useEffect(() => {
+    setImagePath(category.image);
+  },[category.image]);
 
   const handleFormSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     e.stopPropagation();
 
-    let imagePath: string = category.image;
+    let image: string = '';
 
     //TODO:: if the edit form has an image file, upload it and get the file path 
-    if(imageRef.current!.files && imageRef.current!.files!.length > 0 ) {
+    if(imageRef.current!.files && imageRef.current!.files.length > 0) {
       const imageFormData = new FormData();
       imageFormData.append('image', imageRef.current!.files[0]);
 
@@ -50,19 +54,18 @@ export default function EditCategoryModal ({
       })
       .then(res => res.json())
       .then(data => {
-        data.image && data.image !== '' ? imagePath = data.image : null
+        image = data.image;     
+        // data.image && data.image !== '' ? imagePath = data.image : null
         
       }).catch((err) => console.error('Error', err));
 
     }
-    // return;
 
     const updateData = JSON.stringify({
-      cid: category.cid,
       order: category.order,
       title: titleRef.current!.value,
       details: detailsRef.current!.value,
-      image: imagePath
+      image
     });
 
     //TODO: If the form has image file, upload separately and then get the file path and add to updateData.    
@@ -76,10 +79,7 @@ export default function EditCategoryModal ({
     })
       .then(res => res.json())
       .then(data => {
-        // console.log(data);
-        // return
-
-        if(data.rows > 0) {
+        if(data && data.result) {
           const prevCategory = categories?.find(c => c.cid === category.cid);
           const newMenus: MenuData[] | null = prevCategory!.menus;
           const newCategory: CategoryData = {
@@ -103,13 +103,33 @@ export default function EditCategoryModal ({
       })
       .catch((err) => console.error('Error', err));
 
-    setHasImage(false);
     onClose?.();
   };
 
   const handleImageOnDelete = async (e: React.MouseEvent): Promise<void> => {
     e.preventDefault();
     e.stopPropagation();
+
+    await fetch(API_URL + '/file/', {
+      method: 'DELETE',
+      credentials: 'include',      
+      headers: {
+        Authorization: `Bearer ${user!.accessToken}`,
+      },
+      body: JSON.stringify({
+        image: category!.image,
+        id: category!.cid,
+        destination: 'category'
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        //console.log(data);
+        (data.deleted) ? setImagePath('') : null;
+        const newCategory = categories.map((c) => c.cid === category.cid ? { ...c, image: '' } : c);
+        setCategories(newCategory);
+      })
+      .catch((err) => console.error('Error', err));
   };
 
   return (
@@ -126,13 +146,13 @@ export default function EditCategoryModal ({
           className={`z-30 w-4/5 m-auto rounded-lg shadow-md overflow-auto`}
         >
           <div className="w-full flex justify-between items-center px-3 py-3 rounded-t-lg bg-[#474747]">
-            <span className="pl-3 text-white text-lg font-semibold">
+            <span className="pl-3 text-lime-400 text-lg font-semibold">
               Edit Category
             </span>
 
             <button
               type="button"
-              className="text-white bg-transparent hover:bg-lime-400 hover:text-gray-500 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+              className="text-white bg-transparent hover:bg-lime-500 hover:text-gray-600 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
               onClick={onClose}
             >
               <svg
@@ -164,7 +184,7 @@ export default function EditCategoryModal ({
                   type="text"
                   id="title"
                   autoComplete="off"
-                  ref={titleRef}
+                  ref={titleRef as React.RefObject<HTMLInputElement>}
                   className="border border-gray-600 text-white bg-[#808080] sm:text-sm rounded-lg focus:outline-none focus:border-lime-400 shadow-md block w-full p-2.5"
                   required
                 />
@@ -186,40 +206,38 @@ export default function EditCategoryModal ({
                 />
               </div>
 
-              {hasImage ? (
-                <div className="mt-5 my-3 py-3 flex flex-col justify-between">
-                  <span className="">menu image: </span>
-                  <div className="flex flex-col mx-auto justify-center">
-                    <img
-                      src={category!.image}
-                      alt="category image"
-                      className="max-w-xl"
-                    />
-                    <button
-                      onClick={handleImageOnDelete}
-                      className="text-white text-xs uppercase px-3 py-2 my-2 mx-auto bg-red-700 hover:bg-red-600 rounded-md shadow-sm"
-                    >
-                      delete
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="mt-5 my-3 align-left">
-                  <label
-                    htmlFor="categoryImage"
-                    className="block mb-2 text-xs uppercase text-white text-left font-semibold"
-                  >
-                    category image
-                  </label>
-                  <input
-                    type="file"
-                    id="categoryImage"
-                    ref={imageRef}
-                    accept="image/*"
-                    className="bg-[#808080] border border-gray-600 text-white shadow-md sm:text-sm rounded-lg file:font-semibold focus:outline-none focus:border-lime-400 block w-full py-1.5 pl-1.5 file:border-1 file:border-gray-600 file:rounded-md file:shadow-none file:bg-[#808080] file:text-white file:py-1 file:px-2 file:ring-0 file:mr-3"
+              <div className={`mt-5 my-3 py-3 flex flex-col justify-between ${imagePath !== '' ? null : 'hidden' }`}>
+                <span className="text-white font-semibold text-sm">Category image: </span>
+                <div className="flex flex-col mx-auto justify-center">
+                  <img
+                    src={HOME_URL + imagePath}
+                    alt="category image"
+                    className="max-w-xl"
                   />
+                  <button
+                    onClick={handleImageOnDelete}
+                    className="text-white text-xs uppercase px-3 py-2 my-2 mx-auto bg-red-700 hover:bg-red-600 rounded-md shadow-sm"
+                  >
+                    delete
+                  </button>
                 </div>
-              )}
+              </div>
+              
+              <div className={`mt-5 my-3 align-left ${imagePath === '' ? null : 'hidden'}`}>
+                <label
+                  htmlFor="categoryImage"
+                  className="block mb-2 text-xs uppercase text-white text-left font-semibold"
+                >
+                  category image
+                </label>
+                <input
+                  type="file"
+                  id="categoryImage"
+                  ref={imageRef as React.RefObject<HTMLInputElement>}
+                  accept="image/*"
+                  className="bg-[#808080] border border-gray-600 text-white shadow-md sm:text-sm rounded-lg file:font-semibold focus:outline-none focus:border-lime-400 block w-full py-1.5 pl-1.5 file:border-1 file:border-gray-600 file:rounded-md file:shadow-none file:bg-[#808080] file:text-white file:py-1 file:px-2 file:ring-0 file:mr-3"
+                />
+              </div>
 
               <div className="my-3 align-left pt-4">
                 <button

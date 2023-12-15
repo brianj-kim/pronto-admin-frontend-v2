@@ -82,7 +82,7 @@ const Login = () => {
               <h6 className="text-white text-md font-bold">
                 Login
               </h6>
-              <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+              <p ref={errRef} className={`${errMsg ? "errmsg" : "offscreen"} text-lime-400`} aria-live="assertive">{errMsg}</p>
           
             </div>
           </div>

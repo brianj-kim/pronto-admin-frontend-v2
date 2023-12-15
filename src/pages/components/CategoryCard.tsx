@@ -5,10 +5,9 @@ import { useRef, useState } from "react";
 import { useModal } from "../../customHooks/useModal";
 
 type CategoryCardProps = {
-  key: number;
   category: CategoryData;
   categories: CategoryData[];
-  setCategories: React.Dispatch<React.SetStateAction<CategoryData[]|null>>;
+  setCategories: React.Dispatch<React.SetStateAction<CategoryData[] | null>>;
 }
 
 export default function CategoryCard ({ category, categories, setCategories }: CategoryCardProps) {
@@ -17,12 +16,21 @@ export default function CategoryCard ({ category, categories, setCategories }: C
 
   const toggleCardShow = () => setShowCard(!showCard);
 
-  const {
+  const { 
     openEditCategoryModal,
+    openDeleteCategoryModal
   } = useModal();
   
   const handleOpenEditCategoryModal = () => {
     openEditCategoryModal({
+      category,
+      categories,
+      setCategories,
+    });
+  };
+
+  const handleOpenDeleteCategoryModal = () => {
+    openDeleteCategoryModal({
       category,
       categories,
       setCategories,
@@ -44,6 +52,7 @@ export default function CategoryCard ({ category, categories, setCategories }: C
         <div className="flex flex-col md:flex-row justify-center px-4">
           <button 
             className="rounded-md border uppercase border-lime-500 mr-2 font-medium text-xs px-2 py-1 text-center flex flex-row justify-around items-center"
+            onClick={handleOpenDeleteCategoryModal}
           >
             Delete<FaCircleXmark className="ml-2 text-lime-400" />
           </button>
@@ -64,8 +73,8 @@ export default function CategoryCard ({ category, categories, setCategories }: C
             onClick={() => toggleCardShow()}
             className="ml-3 rounded-md border border-lime-400 p-1 text-sm items-center"
           >
-            {showCard ? (<FaAngleUp className="text-lime-400" />) 
-            : (<FaAngleDown className="text-lime-400" />)}
+            {showCard ? (<FaAngleUp className="text-lime-400 font-bold" />) 
+            : (<FaAngleDown className="text-lime-400 font-bold" />)}
           </button>
         </div>         
 
