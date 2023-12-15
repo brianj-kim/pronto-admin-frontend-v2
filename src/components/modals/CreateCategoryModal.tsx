@@ -1,7 +1,6 @@
 import React, { FormEvent, useEffect, useRef } from "react";
 import { API_URL, CategoryData, IModal } from "../../lib/definitions";
 import { useAuth } from "../../customHooks/useAuth";
-import { isTokenExpired } from "../../lib/actions";
 
 export interface CreateCategoryModalProps extends IModal {
   categories: CategoryData[] | null;
@@ -23,9 +22,6 @@ export default function CreateCategoryModal ({
   const handleFormSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
     e.stopPropagation();
-
-    console.log(isTokenExpired(user!.accessToken));
-    return;
 
     const formData: FormData = new FormData();
 
@@ -53,7 +49,7 @@ export default function CreateCategoryModal ({
           order: Number(data.result.order),
           title: data.result.title,
           details: data.result.details,
-          image: data.result.imageFile,
+          image: data.result.image,
           menus: [],
         };
 
@@ -88,13 +84,13 @@ export default function CreateCategoryModal ({
             className={`z-30 w-4/5 m-auto rounded-lg shadow-md overflow-auto`}
           >
             <div className="w-full flex justify-between items-center px-3 py-3 rounded-t-lg bg-[#474747]">
-              <span className="pl-3 text-white text-lg font-semibold">
+              <span className="pl-3 text-lime-400 text-lg font-semibold">
                 Add New Category
               </span>
 
               <button
                 type="button"
-                className="text-white bg-transparent hover:bg-lime-400 hover:text-gray-500 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                className="text-white bg-transparent hover:bg-lime-500 hover:text-gray-600 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                 onClick={onClose}
               >
                 <svg
@@ -167,7 +163,7 @@ export default function CreateCategoryModal ({
                 <div className="my-3 align-left pt-4">
                   <button
                     type="submit"
-                    className="text-[#474747] bg-lime-400 focus:ring-4 focus:outline-none focus:ring-lime-400 rounded-lg font-extrabold text-sm uppercase px-4 py-2 text-center"
+                    className="text-[#474747] bg-lime-400 focus:ring-4 focus:outline-none focus:ring-lime-400 rounded-lg font-extrabold text-xs uppercase px-4 py-2 text-center"
                   >
                     Submit
                   </button>

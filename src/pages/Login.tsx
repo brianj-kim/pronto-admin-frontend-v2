@@ -47,6 +47,8 @@ const Login = () => {
     .then(res => res.json())    
     .then(data => {      
       // console.log(data);
+      // return;
+
       setUser(tokenToUser(data.access_token));
       setItem('isAuthenticated', 'true');
       setItem('refreshExp', data.refresh_exp);
@@ -80,7 +82,7 @@ const Login = () => {
               <h6 className="text-white text-md font-bold">
                 Login
               </h6>
-              <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+              <p ref={errRef} className={`${errMsg ? "errmsg" : "offscreen"} text-lime-400`} aria-live="assertive">{errMsg}</p>
           
             </div>
           </div>

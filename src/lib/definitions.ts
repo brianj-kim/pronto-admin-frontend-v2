@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 export const API_URL: string = 'http://gopronto.ca/backend';
+export const HOME_URL: string = 'http://gopronto.ca';
 
 export type NavItemType = {
   id: string;
