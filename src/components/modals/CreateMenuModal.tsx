@@ -63,10 +63,6 @@ export default function CreateMenuModal ({
     })
       .then(res => res.json())
       .then(data => {
-        // console.log(data.result);        
-        // console.log(category);
-        // return;
-
         const newMenu: MenuData = {
           mid: data.result.mid,
           order: data.result.order,
@@ -105,7 +101,6 @@ export default function CreateMenuModal ({
     
   },[]);
 
-  // console.log(categoryId);
   return (
     <>      
       { visible ? (
