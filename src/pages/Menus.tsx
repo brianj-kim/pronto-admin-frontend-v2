@@ -41,6 +41,7 @@ function Menus() {
   };
 
   // console.log(user);
+  console.log(categories);
   
   if (isLoading) return <div className="w-full h-screen text-white flex items-center justify-center text-3xl">Loading Menus...</div>;
 
