@@ -10,6 +10,7 @@ function Menus() {
   const { user } = useAuth();
   const [categories, setCategories] = useState<CategoryData[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchMenus = async () => await fetch(API_URL + '/menu/', {
@@ -40,6 +41,8 @@ function Menus() {
     });
   };
 
+
+
   // console.log(user);
   // console.log(categories);
   
@@ -58,10 +61,16 @@ function Menus() {
           >
             add category
           </button>
+          <button
+            className="ml-3 rounded-md border border-lime-400 text-xs uppercase px-2 py-1 font-medium"
+            onClick={() => setIsCollapsed(!isCollapsed)}
+          >
+            collapse
+          </button>
         </div>
         
         { categories && categories.map((category) => (
-          <CategoryCard key={category.cid} category={category} categories={categories} setCategories={setCategories}/>
+          <CategoryCard key={category.cid} category={category} categories={categories} setCategories={setCategories} isCollapsed={isCollapsed} />
         ))}
         
       </div>

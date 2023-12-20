@@ -1,21 +1,26 @@
 import { FaCircleCheck, FaCircleXmark, FaCirclePlus, FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { CategoryData } from "../../lib/definitions";
 import MenuCard from "./MenuCard";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useModal } from "../../customHooks/useModal";
 
 type CategoryCardProps = {
+  isCollapsed: boolean;
   category: CategoryData;
   categories: CategoryData[];
   setCategories: React.Dispatch<React.SetStateAction<CategoryData[] | null>>;
 }
 
-export default function CategoryCard ({ category, categories, setCategories }: CategoryCardProps) {
+export default function CategoryCard ({ isCollapsed, category, categories, setCategories }: CategoryCardProps) {
   const menusDispRef = useRef<HTMLDivElement>(null);
   const [showCard, setShowCard] = useState<boolean>(true);
   const ctg = categories.find((c) => c.cid === category.cid);
 
   const toggleCardShow = () => setShowCard(!showCard);
+
+  useEffect(() => {
+    setShowCard(!isCollapsed);
+  },[isCollapsed]);
 
   const { 
     openEditCategoryModal,
