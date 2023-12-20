@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useAuth } from "../../customHooks/useAuth";
 import { CategoryData, MenuData, IModal, API_URL, HOME_URL } from "../../lib/definitions";
 
@@ -19,6 +20,18 @@ export default function DeleteMenuModal ({
   const { user } = useAuth();
   // console.log(categoryId);
 
+  useEffect(() => {
+    if(visible) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = '15px';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
+    }
+  },[visible]);
+
   const handleDeleteMenu = async () => {
     // console.log("Deleteing menu id of " + menu.mid + " & category id of " + categoryId);
 
@@ -32,7 +45,7 @@ export default function DeleteMenuModal ({
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
+      // console.log(data);
       // return;
 
       if(data.deletedRowCount === 1) {
@@ -102,9 +115,12 @@ export default function DeleteMenuModal ({
                     <h5 className="text-lg tracking-tight text-white font-medium mb-1 mt-3">{menu.title}</h5>                      
                     { menu.details != '' ? <p className="text-white text-base mb-2">{menu.details}</p> : null }   
                     <p className="text-lime-400 text-xl font-medium mb-2">${menu!.price}</p>
-          
-                    { menu!.isSpicy ? <div className="px-3 py-1 font-semibold rounded-md border border-red-600 text-red-600 uppercase text-xs bg-[#808080]">spicy</div> : null}         
-                    { menu!.isVeggie ? <div className="mb-1 px-3 py-1 uppercase text-lime-400 text-sm font-semibold rounded-md border border-lime-400 bg-[#808080]">vegan</div> : null } 
+
+                    <div className="w-fit flex flex-row justify-around items-center">
+                      { menu!.isSpicy ? <div className="mx-2 px-3 py-1 font-semibold rounded-md border border-red-600 text-red-600 uppercase text-xs bg-[#808080]">spicy</div> : null}
+                      { menu!.isVeggie ? <div className="mx-2 px-3 py-1 uppercase text-lime-400 text-xs font-semibold rounded-md border border-lime-400 bg-[#808080]">vegan</div> : null } 
+                    </div>
+                    
                   </div> 
                 </div>
                 

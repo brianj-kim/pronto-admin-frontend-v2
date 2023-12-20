@@ -23,6 +23,7 @@ export default function CreateMenuModal ({
   const priceRef = useRef<HTMLInputElement>(null);
   const isSpicyRef = useRef<HTMLInputElement>(null);
   const isVeggieRef = useRef<HTMLInputElement>(null);
+  const isOnSaleRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -37,6 +38,10 @@ export default function CreateMenuModal ({
     }
   },[visible]);
 
+  useEffect(() => {
+    isOnSaleRef.current!.checked = true;
+  })
+
   const handleFormSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
     e.stopPropagation();
@@ -49,6 +54,7 @@ export default function CreateMenuModal ({
     formData.append('price', String(priceRef.current!.value));
     formData.append('isVeggie', String(isVeggieRef.current!.checked));
     formData.append('isSpicy', String(isSpicyRef.current!.checked));
+    formData.append('isOnSale', String(isOnSaleRef.current!.checked));
     formData.append('image', imageRef.current!.files![0]);
 
     (imageRef.current!.files! && imageRef.current!.files!.length) ? formData.append('image', imageRef.current!.files![0]) : null;
@@ -71,7 +77,8 @@ export default function CreateMenuModal ({
           image: data.result.image,
           price: data.result.price,
           isSpicy: data.result.isSpicy,
-          isVeggie: data.result.isVeggie
+          isVeggie: data.result.isVeggie,
+          isOnSale: data.result.isOnSale
         }
 
         const newMenus: MenuData[] = [...category.menus!, newMenu]; 
@@ -162,7 +169,21 @@ export default function CreateMenuModal ({
                   />
                 </div>
 
-                <div className="my-3 align-left pt-4">                  
+                <div className="my-3 align-left pt-5">                  
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      ref={isOnSaleRef as React.RefObject<HTMLInputElement>}
+                      className="sr-only peer" 
+                    />
+                    <div className="w-11 h-6 bg-[#474747] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-lime-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-lime-600"></div>
+                    <span className="ml-3 text-xs uppercase font-semibold text-white">
+                      is on Sale ? (You can hide from the menu list while not deleting the menu)
+                    </span>
+                  </label>
+                </div>
+
+                <div className="my-3 align-left">                  
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input 
                       type="checkbox" 

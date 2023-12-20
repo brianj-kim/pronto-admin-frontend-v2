@@ -47,6 +47,7 @@ export type MenuData = {
   "price": string;
   "isVeggie": boolean;
   "isSpicy": boolean;
+  "isOnSale": boolean;
 }
 
 export type CategoryData = {
