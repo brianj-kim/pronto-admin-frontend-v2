@@ -122,7 +122,7 @@ export default function EditCategoryModal ({
     e.preventDefault();
     e.stopPropagation();
 
-    await fetch(API_URL + '/file/', {
+    await fetch(API_URL + '/file/category', {
       method: 'DELETE',
       credentials: 'include',      
       headers: {

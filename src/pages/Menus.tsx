@@ -29,7 +29,7 @@ function Menus() {
     .catch((err) => console.error('Error', err));
 
     fetchMenus();
-  },[]);
+  },[user]);
 
   const { openCreateCategoryModal } = useModal();
 
@@ -41,7 +41,7 @@ function Menus() {
   };
 
   // console.log(user);
-  console.log(categories);
+  // console.log(categories);
   
   if (isLoading) return <div className="w-full h-screen text-white flex items-center justify-center text-3xl">Loading Menus...</div>;
 

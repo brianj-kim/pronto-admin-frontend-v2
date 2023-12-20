@@ -1,3 +1,5 @@
+import { CategoryData, MenuData } from "./definitions";
+
 export const urlDecode = (url: string): string => {
   url.replace(/-/g, "+")
       .replace(/_/g, "/");
@@ -32,3 +34,33 @@ export const isTokenExpired = (token: string): boolean => {
   const payload = jwtDecode(token.split('.')[1]);
   return isExpired(payload.exp);
 }
+
+export const updateMenuState = async (
+  m: MenuData,
+  c: CategoryData,
+  cs: CategoryData[],
+  setCategories: React.Dispatch<React.SetStateAction<CategoryData[] | null>>
+): Promise<void> => {
+  let newMenus: MenuData[];
+  if (c!.menus!.length === 0) {
+    newMenus = [...c!.menus!, m];
+  } else {
+    newMenus = c!.menus!.map((mp) => {
+      if (mp.mid === m.mid) {
+        return m;
+      }
+      return mp;
+    });
+  }
+
+  const newCategory = { ...c, menus: newMenus };
+
+  const newCategories = cs.map((cp) => {
+    if (cp.cid === c.cid) {
+      return newCategory;
+    }
+    return cp;
+  });
+
+  setCategories(newCategories);
+};

@@ -13,6 +13,7 @@ type CategoryCardProps = {
 export default function CategoryCard ({ category, categories, setCategories }: CategoryCardProps) {
   const menusDispRef = useRef<HTMLDivElement>(null);
   const [showCard, setShowCard] = useState<boolean>(true);
+  const ctg = categories.find((c) => c.cid === category.cid);
 
   const toggleCardShow = () => setShowCard(!showCard);
 
@@ -52,7 +53,7 @@ export default function CategoryCard ({ category, categories, setCategories }: C
   return (
 
     <div
-      className="w-11/12 relative z-0 text-center rounded-md border border-gray-500 my-3 divide-y divide-gray-500 shadow-md"
+      className="w-11/12 relative z-0 text-center rounded-md bg-[#474747] border border-gray-500 my-3 divide-y divide-gray-500 shadow-md"
     >
       <div className="w-full py-3 flex flex-col md:flex-row justify-between items-center">        
         <div className="flex flex-col justify-startitems-center pl-6">
@@ -93,7 +94,7 @@ export default function CategoryCard ({ category, categories, setCategories }: C
       </div>
       <div className={`w-full transition-transform duration-150 ease-in-out ${showCard ? null : 'hidden'} `} ref={menusDispRef}>
         <div className={`py-3 px-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4`}>
-          {category.menus && category.menus.map((menu) => (
+          {ctg!.menus && ctg!.menus.map((menu) => (
             <MenuCard menu={menu} category={category} categories={categories} setCategories={setCategories} key={menu.mid} />
           ))}
         </div>
