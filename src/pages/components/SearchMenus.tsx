@@ -29,7 +29,7 @@ export default function SearchMenus ({
       // console.log(newCategories);
     }
     
-  },[query]);
+  },[originalCategories, query, setCategories]);
 
   // console.log(originalCategories);
   // console.log(query);
