@@ -8,9 +8,20 @@ export type MenuCardProps = {
   category: CategoryData,
   categories: CategoryData[],
   setCategories: React.Dispatch<React.SetStateAction<CategoryData[] | null>>
+  dragMenuStart: (m: MenuData) => void;
+  dragMenuEnter: (m: MenuData) => void;
+  dropMenu: () => void;
 }
 
-export default function MenuCard ({ menu, category, categories, setCategories }: MenuCardProps) {
+export default function MenuCard ({ 
+  menu, 
+  category, 
+  categories,
+  setCategories, 
+  dragMenuStart, 
+  dragMenuEnter, 
+  dropMenu 
+}: MenuCardProps) {
   const [imagePath, setImagePath] = useState<string>('');
   const {
     openEditMenuModal,
@@ -42,8 +53,11 @@ export default function MenuCard ({ menu, category, categories, setCategories }:
   return (
     <div 
       className="flex flex-col justify-between bg-[#808080] border border-gray-500 rounded-md shadow-md py-4"
+      onDragStart={() => dragMenuStart?.(menu)}
+      onDragEnter={() => dragMenuEnter?.(menu)}
+      onDragEnd={() => dropMenu?.()}
+      draggable
     >
-      
       <div className="w-full flex items-start justify-center">
         {imagePath !== '' ? (
           <div 

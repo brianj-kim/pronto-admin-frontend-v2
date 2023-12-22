@@ -1,20 +1,30 @@
 import { FaCircleCheck, FaCircleXmark, FaCirclePlus, FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { CategoryData } from "../../lib/definitions";
-import MenuCard from "./MenuCard";
 import { useEffect, useRef, useState } from "react";
 import { useModal } from "../../customHooks/useModal";
+import MenuList from "./MenuList";
 
 type CategoryCardProps = {
   isCollapsed: boolean;
   category: CategoryData;
   categories: CategoryData[];
   setCategories: React.Dispatch<React.SetStateAction<CategoryData[] | null>>;
+  dragCategoryStart: (c: CategoryData) => void;
+  dragCategoryEnter: (c: CategoryData) => void;
+  dropCategory: (e: React.DragEvent) => void;
 }
 
-export default function CategoryCard ({ isCollapsed, category, categories, setCategories }: CategoryCardProps) {
+export default function CategoryCard ({ 
+  dragCategoryStart, 
+  dragCategoryEnter, 
+  dropCategory, 
+  isCollapsed, 
+  category, 
+  categories,
+  setCategories 
+}: CategoryCardProps) {
   const menusDispRef = useRef<HTMLDivElement>(null);
   const [showCard, setShowCard] = useState<boolean>(true);
-  const ctg = categories.find((c) => c.cid === category.cid);
 
   const toggleCardShow = () => setShowCard(!showCard);
 
@@ -54,11 +64,16 @@ export default function CategoryCard ({ isCollapsed, category, categories, setCa
     })
   }
 
-  // console.log(showCard);
+  
   return (
 
     <div
-      className="w-11/12 relative z-0 text-center rounded-md bg-[#474747] border border-gray-500 my-3 divide-y divide-gray-500 shadow-md"
+      className="w-11/12 relative z-0 text-center rounded-md bg-[#474747] border border-gray-500 my-3 divide-y divide-gray-600 shadow-md"
+      onDragStart={() => dragCategoryStart?.(category)}
+      onDragEnter={() => dragCategoryEnter?.(category)}
+      onDragEnd={(e) => dropCategory?.(e)}
+      draggable
+      
     >
       <div className="w-full py-3 flex flex-col md:flex-row justify-between items-center">        
         <div className="flex flex-col justify-startitems-center pl-6">
@@ -99,9 +114,13 @@ export default function CategoryCard ({ isCollapsed, category, categories, setCa
       </div>
       <div className={`w-full transition-transform duration-150 ease-in-out ${showCard ? null : 'hidden'} `} ref={menusDispRef}>
         <div className={`py-3 px-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4`}>
-          {ctg!.menus && ctg!.menus.map((menu) => (
-            <MenuCard menu={menu} category={category} categories={categories} setCategories={setCategories} key={menu.mid} />
-          ))}
+          <MenuList 
+            menus={category.menus}
+            category={category}
+            categories={categories}
+            setCategories={setCategories}
+    
+          />
         </div>
       
       </div>

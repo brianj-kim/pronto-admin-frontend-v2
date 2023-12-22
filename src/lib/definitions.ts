@@ -65,3 +65,8 @@ export interface IModal {
 }
 
 export type OpenModal<T> = (params: T) => void;
+
+export type UpdateOrdersDTO = {
+  id: number,
+  order: number
+}
