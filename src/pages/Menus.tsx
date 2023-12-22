@@ -6,10 +6,14 @@ import { useAuth } from "../customHooks/useAuth";
 import CategoryCard from "./components/CategoryCard";
 import { useModal } from "../customHooks/useModal";
 import { reorderCategories } from "../lib/actions";
+import SearchMenus from "./components/SearchMenus";
 
 function Menus() {
   const { user } = useAuth();
+  
   const [categories, setCategories] = useState<CategoryData[] | null>(null);
+  const [originalCategories, setOriginalCategories] = useState<CategoryData[] | null>(null);
+  
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
@@ -29,6 +33,7 @@ function Menus() {
     .then(data => {
       // console.log(data);
       setCategories(data);
+      setOriginalCategories(data);
       setIsLoading(false);
     })    
     .catch((err) => console.error('Error', err));
@@ -106,6 +111,11 @@ function Menus() {
             { isCollapsed ? 'expand all' : 'collapse all' }
           </button>
         </div>
+
+        <SearchMenus 
+          originalCategories={originalCategories}
+          setCategories={setCategories} 
+        />
         
         { categories && categories.map((category) => (
           <CategoryCard 
