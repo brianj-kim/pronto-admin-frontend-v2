@@ -1,4 +1,4 @@
-import { CategoryData, MenuData } from "./definitions";
+import { API_URL, CategoryData, MenuData, UpdateOrdersDTO } from "./definitions";
 
 export const urlDecode = (url: string): string => {
   url.replace(/-/g, "+")
@@ -64,3 +64,49 @@ export const updateMenuState = async (
 
   setCategories(newCategories);
 };
+
+export const reorderCategories = async (
+  newOrders: UpdateOrdersDTO[]
+  
+  ): Promise<void> => {
+  try {
+    const res = await fetch(API_URL + '/sorts/', {
+      method: 'PATCH',
+      credentials: 'include',
+      body: JSON.stringify({cond: 'category', orders: newOrders})
+    });
+
+    if(!res.ok) {
+      throw new Error(`HTTP error, Status: ${res.status}`)
+    }
+
+    const data = await res.json();
+
+    console.log(data);
+  
+  } catch (err) {
+    console.error('Fetch erro', err);
+  }   
+}
+
+export const reorderMenus = async (
+  newOrders: UpdateOrdersDTO[]
+): Promise<void> => {
+  try {
+    const res = await fetch(API_URL + '/sorts/', {
+      method: 'PATCH',
+      credentials: 'include',
+      body: JSON.stringify({cond: 'menu', orders: newOrders})
+    });
+
+    if(!res.ok) {
+      throw new Error(`HTTP error, Status: ${res.status}`)
+    }
+
+    const data = await res.json();
+
+    console.log(data);
+  } catch (err) {
+    console.error('Fetch error', err);
+  }
+}
