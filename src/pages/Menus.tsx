@@ -86,6 +86,20 @@ function Menus() {
    
   }
 
+  const saveJson = async () => {
+    const res = await fetch(API_URL + '/json/', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        Authorization: `Bearer ${user!.accessToken}`,
+      }
+    });
+
+    if(res.ok) {
+      console.log('success in generating json menus file');
+    }
+  }
+
   // console.log(user);
   // console.log(categories);
   
@@ -94,15 +108,22 @@ function Menus() {
   return (
     <Layout >
       <div className="w-full flex flex-col items-center justify-center mx-auto mt-[82px] text-white relative">
-        <div className="w-full text-center text-xl font-medium">
+        <div className="w-full text-center text-xl font-medium mt-2">
           Pronto Menus 
         </div>
-        <div className="w-11/12 absolute top-0 flex justify-end items-center">
+        <div className="w-11/12 absolute top-0 flex justify-end items-center mt-2">
+          
           <button
             className="rounded-md border border-lime-400 text-xs uppercase px-2 py-1 font-semibold"
             onClick={handleOpenCreateCategoryModal}
           >
             add category
+          </button>
+          <button 
+            className="ml-3 rounded-md border border-lime-400 text-xs uppercase px-2 py-1 font-semibold hover:bg-lime-400 hover:text-gray-600 hover:font-semibold"
+            onClick={() => saveJson()}
+          >
+            generate json
           </button>
           <button
             className="ml-3 rounded-md border border-lime-400 text-xs uppercase px-2 py-1 font-semibold hover:bg-lime-400 hover:text-gray-600 hover:font-semibold"
