@@ -108,10 +108,10 @@ function Menus() {
   return (
     <Layout >
       <div className="w-full flex flex-col items-center justify-center mx-auto mt-[82px] text-white relative">
-        <div className="w-full text-center text-xl font-medium mt-2">
+        <div className="w-full text-center text-xl font-medium mt-2 sm:mb-3">
           Pronto Menus 
         </div>
-        <div className="w-11/12 absolute top-0 flex justify-end items-center mt-2">
+        <div className="w-11/12 absolute top-9 lg:top-0 flex justify-end items-center mt-2">
           
           <button
             className="rounded-md border border-lime-400 text-xs uppercase px-2 py-1 font-semibold"

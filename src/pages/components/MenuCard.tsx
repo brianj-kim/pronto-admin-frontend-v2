@@ -90,9 +90,9 @@ export default function MenuCard ({
       
 
       <div className="mt-4 w-full">
-        <div className="flex flex-col md:flex-row justify-center px-4">
+        <div className="w-full flex flex-row justify-center px-4">
           <button 
-            className="rounded-md border uppercase border-lime-500 mr-2 font-medium text-xs px-2 py-1 text-center flex flex-row justify-around items-center"
+            className="w-fit rounded-md border uppercase border-lime-500 mr-2 font-medium text-xs px-2 py-1 text-center flex flex-row justify-around items-center"
             onClick={handleOpenDeleteMenuModal}
           >
             Delete <FaCircleXmark className="ml-2 text-lime-400" />
