@@ -47,7 +47,7 @@ const NavItems = ({ showNavBar }: { showNavBar: boolean}) => {
           >
             <Link to={item.path} 
               className={clsx(
-                'cursor-pointer block pr-4 text-xs uppercase md:p-0 hover:text-lime-400 border-b-2 border-[#474747] hover:border-b-2 hover:border-lime-400',
+                'cursor-pointer block pr-4 text-xs uppercase my-3 md:my-0 md:p-0 hover:text-lime-400 border-b-2 border-[#474747] hover:border-b-2 hover:border-lime-400',
                 {
                   'text-lime-400 border-lime-400' : pathname === item.path
                 },
@@ -85,7 +85,7 @@ const Header = () => {
         { user ? (
           <button 
             type="button" 
-            className="text-lime-500 font-bold text-sm px-4 py-2 text-center mr-3 md:mr-0 uppercase"
+            className="text-lime-500 font-bold text-sm px-2 py-1 text-center ml-4 sm:mr-0 uppercase"
             onClick={() => navigate('/admin/signup')}
            >
             Signup

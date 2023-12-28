@@ -34,7 +34,7 @@ export default function SearchMenus ({
   // console.log(originalCategories);
   // console.log(query);
   return (
-    <div className="w-11/12 flex items-center my-4">            
+    <div className="w-11/12 flex items-center mt-14 sm:mt-10 lg:mt-2">            
       <input 
         ref={searchRef}
         onChange={(e) => setQuery(e.target.value)}

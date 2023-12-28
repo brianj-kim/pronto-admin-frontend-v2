@@ -75,15 +75,15 @@ export default function CategoryCard ({
       draggable
       
     >
-      <div className="w-full py-3 flex flex-col md:flex-row justify-between items-center">        
-        <div className="flex flex-col justify-startitems-center pl-6">
+      <div className="w-full py-3 flex flex-col sm:flex-row justify-between items-center">        
+        <div className="flex flex-col justify-start items-center pl-6">
           <div className="font-medium text-xl text-left">{category.title} </div>
           {category.details ? (<div className="text-base text-left">{category.details}</div>) : null }    
 
         </div>   
-        <div className="flex flex-col md:flex-row justify-center px-4">
+        <div className="flex flex-row sm: mt-3 justify-center px-4">
           <button 
-            className="rounded-md border uppercase border-lime-500 mr-2 font-medium text-xs px-2 py-1 text-center flex flex-row justify-around items-center"
+            className="rounded-md border uppercase border-lime-500 mr-2 sm:mr-0 font-medium text-xs px-2 sm:px-1 py-1 sm:py-0 text-center flex flex-row justify-around items-center"
             onClick={handleOpenDeleteCategoryModal}
           >
             Delete<FaCircleXmark className="ml-2 text-lime-400" />
