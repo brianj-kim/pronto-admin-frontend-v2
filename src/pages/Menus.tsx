@@ -20,6 +20,10 @@ function Menus() {
   const [dragCategory, setDragCategory] = useState<CategoryData | null>(null);
   const [dragOverCategory, setDragOverCategory] = useState<CategoryData | null>(null);
 
+  const { 
+    openJSONGeneratedModal,
+  } = useModal();
+
   useEffect(() => {
     const fetchMenus = async () => await fetch(API_URL + '/menu/', {
       method: 'GET',
@@ -49,6 +53,10 @@ function Menus() {
       setCategories,
     });
   };
+
+  const handleOpenJSONGeneratedModal = () => {
+    openJSONGeneratedModal({});
+  }
 
 
   const dragStart = (cs: CategoryData) => {
@@ -96,7 +104,8 @@ function Menus() {
     });
 
     if(res.ok) {
-      console.log('success in generating json menus file');
+      //console.log('success in generating json menus file');
+      handleOpenJSONGeneratedModal();
     }
   }
 
