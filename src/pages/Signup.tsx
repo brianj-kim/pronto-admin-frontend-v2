@@ -52,7 +52,7 @@ const Signup = () => {
     }
 
     // post request to create the user
-    await fetch(API_URL + '/register', {
+    await fetch(API_URL + '/register/', {
       method: 'POST',
       body: JSON.stringify({email, username, password})      
     })
