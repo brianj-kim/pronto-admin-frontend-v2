@@ -73,9 +73,9 @@ const Signup = () => {
 
   return (
     <Layout >      
-      <div className="w-4/5 lg:w-1/2 px-4 mx-auto mt-[92px]">
-        <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
-          <div className="rounded-t bg-[#474747] mb-0 px-6 py-4">
+      <div className="w-11/12 sm:w-4/5 px-4 mx-auto mt-[92px]">
+        <div className="w-full relative flex flex-col break-words mb-6 shadow-md rounded-lg bg-blueGray-100 border-0">
+          <div className="rounded-t bg-[#474747] mb-0 flex justify-center sm:justify-start sm:px-4 py-4">
             <div className="text-center flex justify-between">
               <h6 className="text-white text-lg font-bold">
                 Signup - New Account
@@ -84,14 +84,10 @@ const Signup = () => {
             </div>
           </div>
           <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-            <form onSubmit={handleSigupSubmit}>
-                
-              <h6 className="text-white text-sm mt-3 mb-6 font-bold uppercase">
-                User Information
-              </h6>
+            <form onSubmit={handleSigupSubmit}>              
                 
               <div className="flex flex-wrap">                
-                <div className="w-full lg:w-12/12 px-4">
+                <div className="w-full lg:w-12/12 px-4 mt-6">
                   <InputFormComp 
                     label="email"
                     type="email"
@@ -141,7 +137,7 @@ const Signup = () => {
                   
                     <Button 
                       type="submit"
-                      className="w-full mt-6 uppercase text-xs font-bold"
+                      className="w-full mt-6 py-3 uppercase text-xs font-bold"
                     >
                       Submit
                     </Button>
