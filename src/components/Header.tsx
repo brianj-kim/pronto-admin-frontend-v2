@@ -64,6 +64,8 @@ const Header = () => {
   const [showNavbar, setShowNavBar] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  const location = useLocation();
+
   const { user, removeUser } = useAuth();
 
   useEffect(() => {
@@ -82,10 +84,14 @@ const Header = () => {
       </Link>
     
       <div className="flex md:order-2 gap-3">
-        { user ? (
+        { !user ? (
           <button 
             type="button" 
-            className="text-lime-500 font-bold text-sm px-2 py-1 text-center ml-4 sm:mr-0 uppercase"
+            className={
+              `font-bold text-xs px-2 py-1 text-center ml-4 sm:mr-0 uppercase
+              ${location.pathname.split('/')[location.pathname.split('/').length-1] === 'signup' ? `bg-lime-500 text-gray-700 rounded-md` : `text-lime-500 rounded-md border border-lime-500`}
+              `
+            }
             onClick={() => navigate('/admin/signup')}
            >
             Signup
@@ -100,12 +106,18 @@ const Header = () => {
             LOGOUT
           </Button>
         ) : ( 
-          <Button 
+          <button 
             type="button"            
             onClick={() => navigate('/admin/login')} 
+            className={
+              `font-bold text-xs px-2 py-1 text-center sm:mr-0 uppercase
+              ${location.pathname.split('/')[location.pathname.split('/').length-1] === 'signup' ? `bg-[#474747] rounded-md border border-lime-500 text-lime-500` :
+               'bg-lime-500 text-gray-700 border-0 rounded-md'
+            }  
+            `}
           >
             LOGIN
-          </Button> 
+          </button> 
         )}
         
         <button 
