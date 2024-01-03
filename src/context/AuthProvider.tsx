@@ -26,12 +26,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           method: 'GET',
           credentials: 'include'
         });
-
-        // console.log(response);
-        // return;
   
         if (response.status === 200) {
           const data = await response.json();
+
           if(!data.is_error) {
             setUser(tokenToUser(data.access_token));
           }
