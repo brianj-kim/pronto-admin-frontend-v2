@@ -46,7 +46,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     refreshFetch();
-  },[]);
+    
+  },[isAuthenticated]);
 
   const contextValue: AuthContextProps = {
     user, 

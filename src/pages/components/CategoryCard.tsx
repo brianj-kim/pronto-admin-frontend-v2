@@ -77,7 +77,7 @@ export default function CategoryCard ({
     >
       <div className="w-full py-3 flex flex-col sm:flex-row justify-between items-center">        
         <div className="flex flex-col justify-start items-center pl-6">
-          <div className="font-medium text-xl text-left">{category.title} </div>
+          <div className="w-full font-medium text-xl text-left">{category.title} </div>
           {category.details ? (<div className="text-base text-left">{category.details}</div>) : null }    
 
         </div>   
@@ -90,14 +90,14 @@ export default function CategoryCard ({
           </button>
 
           <button 
-            className="rounded-md border uppercase border-lime-500 font-medium text-xs px-2 py-1 text-center flex flex-row justify-around items-center"
+            className="rounded-md ml-3 border uppercase border-lime-500 font-medium text-xs px-2 py-1 text-center flex flex-row justify-around items-center"
             onClick={handleOpenEditCategoryModal}
           >
             Edit<FaCircleCheck className="ml-2 text-lime-400"/>
           </button>
 
           <button 
-            className="rounded-md ml-6 border uppercase border-lime-500 font-medium text-xs px-2 py-1 text-center flex flex-row justify-around items-center"
+            className="rounded-md ml-5 border uppercase border-lime-500 font-medium text-xs px-2 py-1 text-center flex flex-row justify-around items-center"
             onClick={handleOpenCreateMenuModal}
           >
             Add Menu<FaCirclePlus className="ml-2 text-lime-400" />
