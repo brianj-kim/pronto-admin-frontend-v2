@@ -20,7 +20,7 @@ export const tokenToUser = (token: string) => {
 
   return {
     userId: result.sub,      
-    username: result.nikcname,
+    username: result.nickname,
     isAdmin: result.roles.includes('root-admin'),
     accessToken: token
   };

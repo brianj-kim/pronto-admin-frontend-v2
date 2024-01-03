@@ -78,18 +78,18 @@ const Header = () => {
   return (
     
   <nav className="bg-[#474747] fixed w-full z-10 top-0 left-0">
-    <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <div className="w-xl lg:w-11/12 flex flex-wrap items-center justify-between mx-auto p-4">
       <Link to="/admin" className="flex items-center">
         <span className="self-center text-xl font-semibold whitespace-nowrap text-white">Pronto Admin</span>
       </Link>
     
-      <div className="flex md:order-2 gap-3">
+      <div className="flex md:order-2 gap-3 items-center">
         { !user ? (
           <button 
             type="button" 
             className={
-              `font-bold text-xs px-2 py-1 text-center ml-4 sm:mr-0 uppercase
-              ${location.pathname.split('/')[location.pathname.split('/').length-1] === 'signup' ? `bg-lime-500 text-gray-700 rounded-md` : `text-lime-500 rounded-md border border-lime-500`}
+              `font-bold text-xs px-2 h-6 uppercase rounded-md
+              ${location.pathname.split('/')[location.pathname.split('/').length-1] === 'signup' ? `bg-lime-500 text-gray-700` : `text-lime-500 border border-lime-500`}
               `
             }
             onClick={() => navigate('/admin/signup')}
@@ -98,7 +98,7 @@ const Header = () => {
           </button>
         ): null}        
 
-        { user && user.isAdmin ? (
+        { user && user!.isAdmin ? (
           <Button 
             type="button"
             onClick={() => removeUser()}
