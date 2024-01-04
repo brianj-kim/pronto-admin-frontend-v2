@@ -37,7 +37,7 @@ export default function DeleteCategoryModal ({
 
   const handleDeleteCategory = async (e: React.MouseEvent) => {
     e.preventDefault();
-    e.stopPropagation();
+    e.stopPropagation();    
 
     await fetch(API_URL + `/category/${category.cid}`, {
       method: 'DELETE',
@@ -50,7 +50,7 @@ export default function DeleteCategoryModal ({
     .then(data => {
       // console.log(data);
       // return;
-      if(data.rowCount.deletedCategory === 1) {
+      if(data.deletedCategoryCount === 1) {
         const newCategories = categories!.filter(c => c.cid !== category.cid);
         setCategories?.(newCategories);
       }
