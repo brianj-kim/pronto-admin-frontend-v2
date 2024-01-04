@@ -53,11 +53,11 @@ export default function CreateCategoryModal ({
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
-        // return;
+        //console.log(data);
+        //return;
 
         const newCategory: CategoryData = {
-          cid: Number(data.id),
+          cid: Number(data.result.cid),
           order: Number(data.result.order),
           title: data.result.title,
           details: data.result.details,
@@ -69,7 +69,7 @@ export default function CreateCategoryModal ({
           ? setCategories([...categories, newCategory])
           : setCategories([newCategory]);
 
-        // console.log(categories);
+        //console.log(categories);
       })
       .catch((err) => {
         console.error("Error", err);
