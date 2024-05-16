@@ -1,7 +1,6 @@
 const CURRENCY_FORMATTER = new Intl.NumberFormat("en-CA", {
   currency: "CAD",
   style: "currency",
-  minimumFractionDigits: 0,
 });
 
 export const formatCurrency = (amount: number) => {
