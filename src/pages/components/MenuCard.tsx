@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CategoryData, HOME_URL, MenuData } from "../../lib/definitions";
 import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { useModal } from "../../customHooks/useModal";
+import { formatCurrency } from "../../lib/numberFormatter";
 
 export type MenuCardProps = {
   menu: MenuData;
@@ -85,7 +86,7 @@ export default function MenuCard ({
           {menu.isSpicy ? (<div className="mx-1 px-3 py-1 font-semibold rounded-md border border-red-600 text-red-600 uppercase text-xs bg-[#808080]">spicy</div>) : null}
           {menu.isVeggie ? (<div className="mx-1 px-3 py-1 uppercase font-semibold border border-lime-400 rounded-md text-lime-400 text-xs">vegan</div>) : null}
         </div>         
-        <div className="mt-2 text-lg">${menu.price}</div>
+        <div className="mt-2 text-lg">{formatCurrency(parseInt(menu.price) / 100)}</div>
       </div>
       
 
