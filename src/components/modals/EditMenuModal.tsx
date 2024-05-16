@@ -240,7 +240,7 @@ export default function EditMenuModal ({
                     htmlFor="price"
                     className="block mb-2 text-xs uppercase text-white font-semibold text-left"
                   >
-                    menu price
+                    menu price (in cents)
                   </label>
                   <input
                     id="price"

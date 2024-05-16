@@ -159,7 +159,7 @@ export default function CreateMenuModal ({
                 </div>
 
                 <div className="my-3 align-left pt-2">
-                  <label htmlFor="price" className="block mb-2 text-xs uppercase text-white font-semibold text-left">menu price</label>
+                  <label htmlFor="price" className="block mb-2 text-xs uppercase text-white font-semibold text-left">menu price (in cents)</label>
                   <input 
                     id="price" 
                     required
